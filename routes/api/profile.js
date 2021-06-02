@@ -4,10 +4,13 @@ const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+// bring in normalize to give us a proper url, regardless of what user entered
+const normalize = require('normalize-url');
+const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-const { compareSync } = require('bcryptjs');
+const Post = require('../../models/Post');
 
 // @route   GET api/profile/me
 // @desc    Get current users profile
@@ -138,7 +141,8 @@ router.get('/user/:user_id', async (req, res) => {
 // @access  Private
 router.delete('/', auth, async (req, res) => {
   try {
-    // @todo - remove users posts
+    // Remove user posts
+    await Post.deleteMany({ user: req.user.id });
 
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
@@ -310,7 +314,7 @@ router.get('/github/:username', (req, res) => {
       method: 'GET',
       headers: { 'user-agent': 'node.js' },
     };
-
+    console.log(options.uri);
     request(options, (error, response, body) => {
       if (error) console.error(error);
 
