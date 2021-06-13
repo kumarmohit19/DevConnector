@@ -488,6 +488,19 @@ button {
   margin-bottom: 0.5rem;
 }
 
+/* Feeds Page */
+.feeds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+}
+
+.feeds .feed-date {
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
 /* Mobile Styles */
 @media (max-width: 700px) {
   .container {
@@ -567,11 +580,14 @@ button {
     margin-bottom: 0.2rem;
   }
 
-  .post {
+  .post,
+  .feeds {
     grid-template-columns: 1fr;
   }
   .post a,
-  .post button {
+  .post button,
+  .feeds a,
+  .feeds button {
     padding: 0.3rem 0.4rem;
   }
 }
